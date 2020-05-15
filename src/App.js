@@ -30,7 +30,7 @@ class App extends React.Component {
 
   countdown = () => {
     this.myInterval = setInterval(() => {
-        const { seconds, minutes, recover, secs, mins, rec } = this.state
+        const { seconds, minutes, recover, secs, mins, rec , timerOn} = this.state
         if (secs===0 && mins===0 && rec===0){
           clearInterval(this.myInterval)
         }
@@ -56,7 +56,7 @@ class App extends React.Component {
             }
         } 
 
-        if (seconds===0 && minutes===0 && recover===0){
+        if (seconds===0 && minutes===0 && recover===0 && timerOn){
           this.setState({
              seconds:secs,
              minutes:mins,
