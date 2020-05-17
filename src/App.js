@@ -6,12 +6,14 @@ class App extends React.Component {
         super(props)
         this.state = {
             timerOn: false,
+            recoveryTime: false,
             minutes: 0,
             seconds: 0,
             recover: 0,
             mins: 0,
             secs: 0,
             rec: 0,
+            randomGif: 0,
         };
         this.updateTimer = this.updateTimer.bind(this);
         this.countdown = this.countdown.bind(this);
@@ -28,7 +30,7 @@ class App extends React.Component {
 
     countdown = () => {
         this.myInterval = setInterval(() => {
-            const { seconds, minutes, recover, secs, mins, rec, timerOn } = this.state
+            const { seconds, minutes, recover, secs, mins, rec, timerOn, recoveryTime } = this.state
             if (secs === 0 && mins === 0 && rec === 0) {
                 clearInterval(this.myInterval)
             }
@@ -41,15 +43,21 @@ class App extends React.Component {
                 if (minutes === 0 && recover > 0) {
                     this.setState(({ recover }) => ({
                         recover: recover - 1,
+                        recoveryTime: true,
                     }))
                 }
                 else if (minutes === 0 && recover === 0) {
                     clearInterval(this.myInterval)
+                    this.setState({
+                        recoveryTime: false,
+                        randomGif: this.getRandomGif(),
+                    })
                 }
                 else {
                     this.setState(({ minutes }) => ({
                         minutes: minutes - 1,
-                        seconds: 59
+                        seconds: 59,
+                        recoveryTime: false,
                     }))
                 }
             }
@@ -100,8 +108,13 @@ class App extends React.Component {
 
     }
 
+    getRandomGif = () =>{
+        //returns random number from 0 to 20
+       return Math.floor(Math.random() * Math.floor(19))+1;
+    }
+
     render() {
-        const { minutes, seconds, recover, timerOn } = this.state
+        const { minutes, seconds, recover, timerOn, recoveryTime } = this.state
         return (
             <div className="App container">
                 <div className="row">
@@ -114,7 +127,7 @@ class App extends React.Component {
                             {timerOn &&
                                 (minutes === 0 && seconds === 0 && recover === 0
                                     ? '0:00'
-                                    : (minutes === 0 && seconds === 0 ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
+                                    : (recoveryTime ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
                                         : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
                             }
                         </div>
@@ -127,6 +140,9 @@ class App extends React.Component {
                         </div>
                     </div>
                     <div className="gif-frame">
+                            {recoveryTime ? 
+                            <img src={require(`./images/gifs/recovery.gif`)}/>
+                            : <img src={require(`./images/gifs/${this.state.randomGif}.gif`)} />}
                     </div>
                 </div>
             </div>
