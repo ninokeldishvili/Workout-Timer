@@ -103,22 +103,7 @@ class App extends React.Component {
     render() {
         const { minutes, seconds, recover, timerOn } = this.state
         return (
-            <div className="App container ">
-
-                <div className="row">
-                    <div className="col-lg-4 col-md- col-sm-12">
-                        <label>Minute:</label> <input type="text" value={this.state.mins} onChange={this.getMinutes} />
-                    </div>
-                    <div className="col-lg-4 col-md-4 col-sm-12">
-                        <label>Seconds:</label> <input type="text" value={this.state.secs} onChange={this.getSeconds} />
-                    </div>
-                    <div className="col-lg-4 col-md-4 col-sm-12">
-                        <label>Recover:</label> <input type="text" value={this.state.rec} onChange={this.getRecover} />
-                    </div>
-                </div>
-
-
-
+            <div className="App container">
                 <div className="row">
                     <div className="timer-container row">
                         <div className="glass-hour col-3">
@@ -129,12 +114,16 @@ class App extends React.Component {
                             {timerOn &&
                                 (minutes === 0 && seconds === 0 && recover === 0
                                     ? '0:00'
-                                    : (minutes === 0 && seconds === 0 ? <span>{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
-                                        : <span>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
+                                    : (minutes === 0 && seconds === 0 ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
+                                        : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
                             }
                         </div>
-                        <div className="col-3 start-btn">
-                            {!timerOn ? <button onClick={this.updateTimer}>START</button> : <button onClick={this.stopTimer}>stop</button>}
+                        <div className="col-3 action-continer">
+                            Minutes:<input className="time-input" type="number" value={this.state.mins} onChange={this.getMinutes} /><hr />
+                            Seconds:<input className="time-input" type="number" value={this.state.secs} onChange={this.getSeconds} /><hr />
+                            Recover:<input className="time-input" type="number" value={this.state.rec} onChange={this.getRecover} /><hr />
+                            {!timerOn ? <button className="start-btn" onClick={this.updateTimer}>START</button> 
+                            : <button className="stop-btn" onClick={this.stopTimer}>STOP</button>}
                         </div>
                     </div>
                     <div className="gif-frame">
