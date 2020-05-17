@@ -4,6 +4,7 @@
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+  padding-bottom: 15px;
 }
 
 .App-logo {
@@ -44,6 +45,7 @@
 .gif-frame{
   border-radius: 5px;
   width: 100%;
+  min-height: 70vh;
 }
 
 .gif-frame img{
@@ -52,7 +54,6 @@
 }
 
 .timer-container{
-  margin: 2% 0%;
   width: 100%;
 }
 
@@ -67,14 +68,16 @@
   margin-top: auto;
   margin-bottom: auto;
   font-family: cursive;
-
+  font-size: 1.2vw;
 }
-.start-btn{
+.start-btn,
+.load-workouts{
   color: #1cfcd2;
 }
 
-.start-btn:hover{
-  color:#1afad9;
+.start-btn:hover,
+.load-workouts:hover{
+  color:#1b947d;
 }
 
 .stop-btn{
@@ -82,15 +85,19 @@
 }
 
 .start-btn,
-.stop-btn{
+.stop-btn,
+.load-workouts{
   border:none;
   font-size: 3vh;
   background: none;
+  font-weight: 600;
+  font-family: cursive;
 }
 
 .start-btn:focus,
 .stop-btn:focus,
-.time-input:focus{
+.time-input:focus,
+.load-workouts:focus{
   outline:none;
 }
 

@@ -14,6 +14,7 @@ class App extends React.Component {
             secs: 0,
             rec: 0,
             randomGif: 0,
+            workoutsVisible: false,
         };
         this.updateTimer = this.updateTimer.bind(this);
         this.countdown = this.countdown.bind(this);
@@ -108,42 +109,53 @@ class App extends React.Component {
 
     }
 
-    getRandomGif = () =>{
+    getRandomGif = () => {
         //returns random number from 0 to 20
-       return Math.floor(Math.random() * Math.floor(19))+1;
+        return Math.floor(Math.random() * Math.floor(19)) + 1;
+    }
+
+    toggleWorkouts = () => {
+        this.setState({
+            workoutsVisible: !this.state.workoutsVisible,
+        })
     }
 
     render() {
-        const { minutes, seconds, recover, timerOn, recoveryTime } = this.state
+        const { minutes, seconds, recover, timerOn, recoveryTime, workoutsVisible } = this.state
         return (
             <div className="App container">
-                <div className="row">
-                    <div className="timer-container row">
-                        <div className="glass-hour col-3">
-                            <img src={require('./images/hourglass.png')} />
-                        </div>
-                        <div className="timer col-6">
-                            {!timerOn && '0:00'}
-                            {timerOn &&
-                                (minutes === 0 && seconds === 0 && recover === 0
-                                    ? '0:00'
-                                    : (recoveryTime ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
-                                        : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
-                            }
-                        </div>
-                        <div className="col-3 action-continer">
-                            Minutes:<input className="time-input" type="number" value={this.state.mins} onChange={this.getMinutes} /><hr />
-                            Seconds:<input className="time-input" type="number" value={this.state.secs} onChange={this.getSeconds} /><hr />
-                            Recover:<input className="time-input" type="number" value={this.state.rec} onChange={this.getRecover} /><hr />
-                            {!timerOn ? <button className="start-btn" onClick={this.updateTimer}>START</button> 
+                <div className="timer-container row">
+                    <div className="glass-hour col-3">
+                        <img src={require('./images/hourglass.png')} />
+                    </div>
+                    <div className="timer col-6">
+                        {!timerOn && '0:00'}
+                        {timerOn &&
+                            (minutes === 0 && seconds === 0 && recover === 0
+                                ? '0:00'
+                                : (recoveryTime ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
+                                    : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
+                        }
+                    </div>
+                    <div className="col-3 action-continer">
+                        Minutes:<input className="time-input" type="number" value={this.state.mins} onChange={this.getMinutes} /><hr />
+                        Seconds:<input className="time-input" type="number" value={this.state.secs} onChange={this.getSeconds} /><hr />
+                        Recover:<input className="time-input" type="number" value={this.state.rec} onChange={this.getRecover} /><hr />
+                        {!timerOn ? <button className="start-btn" onClick={this.updateTimer}>START</button>
                             : <button className="stop-btn" onClick={this.stopTimer}>STOP</button>}
-                        </div>
                     </div>
-                    <div className="gif-frame">
-                            {recoveryTime ? 
-                            <img src={require(`./images/gifs/recovery.gif`)}/>
-                            : <img src={require(`./images/gifs/${this.state.randomGif}.gif`)} />}
-                    </div>
+                </div>
+                <div className="gif-frame">
+                    <button className="load-workouts" onClick={this.toggleWorkouts}>{!workoutsVisible?'Load ':'Hide '}Workouts</button>
+                    {
+                        workoutsVisible && (
+                            <div>
+                                {recoveryTime ?
+                                    <img src={require(`./images/gifs/recovery.gif`)} />
+                                    : <img src={require(`./images/gifs/${this.state.randomGif}.gif`)} />}
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         )
