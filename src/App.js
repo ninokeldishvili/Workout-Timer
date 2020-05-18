@@ -5,7 +5,7 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            timerOn: false,
+            timerIsOn: false,
             recoveryTime: false,
             minutes: 0,
             seconds: 0,
@@ -24,14 +24,14 @@ class App extends React.Component {
 
     updateTimer = () => {
         this.setState({
-            timerOn: true,
+            timerIsOn: true,
         });
         this.countdown();
     };
 
     countdown = () => {
         this.myInterval = setInterval(() => {
-            const { seconds, minutes, recover, secs, mins, rec, timerOn, recoveryTime } = this.state
+            const { seconds, minutes, recover, secs, mins, rec, timerIsOn } = this.state
             if (secs === 0 && mins === 0 && rec === 0) {
                 clearInterval(this.myInterval)
             }
@@ -63,7 +63,7 @@ class App extends React.Component {
                 }
             }
 
-            if (seconds === 0 && minutes === 0 && recover === 0 && timerOn) {
+            if (seconds === 0 && minutes === 0 && recover === 0 && timerIsOn) {
                 this.setState({
                     seconds: secs,
                     minutes: mins,
@@ -104,7 +104,7 @@ class App extends React.Component {
             mins: 0,
             secs: 0,
             rec: 0,
-            timerOn: false,
+            timerIsOn: false,
         })
 
     }
@@ -121,7 +121,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { minutes, seconds, recover, timerOn, recoveryTime, workoutsVisible } = this.state
+        const { minutes, seconds, recover, timerIsOn, recoveryTime, workoutsVisible } = this.state
         return (
             <div className="App container">
                 <div className="timer-container row">
@@ -129,19 +129,16 @@ class App extends React.Component {
                         <img src={require('./images/hourglass.png')} />
                     </div>
                     <div className="timer col-6">
-                        {!timerOn && '0:00'}
-                        {timerOn &&
-                            (minutes === 0 && seconds === 0 && recover === 0
-                                ? '0:00'
-                                : (recoveryTime ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
-                                    : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>))
+                        {!timerIsOn && '0:00'}
+                        {timerIsOn &&  (recoveryTime ? <span className="recover-time">{minutes}:{recover < 10 ? `0${recover}` : recover}</span>
+                                                   : <span className="workout-time">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>)
                         }
                     </div>
                     <div className="col-3 action-continer">
-                        Minutes:<input className="time-input" type="number" value={this.state.mins} onChange={this.getMinutes} /><hr />
-                        Seconds:<input className="time-input" type="number" value={this.state.secs} onChange={this.getSeconds} /><hr />
-                        Recover:<input className="time-input" type="number" value={this.state.rec} onChange={this.getRecover} /><hr />
-                        {!timerOn ? <button className="start-btn" onClick={this.updateTimer}>START</button>
+                        Minutes:<input className="time-input" type="number" value={this.state.mins} disabled={timerIsOn} onChange={this.getMinutes} /><hr />
+                        Seconds:<input className="time-input" type="number" value={this.state.secs} disabled={timerIsOn} onChange={this.getSeconds} /><hr />
+                        Recover:<input className="time-input" type="number" value={this.state.rec}  disabled={timerIsOn} onChange={this.getRecover} /><hr />
+                        {!timerIsOn ? <button className="start-btn" onClick={this.updateTimer}>START</button>
                             : <button className="stop-btn" onClick={this.stopTimer}>STOP</button>}
                     </div>
                 </div>
